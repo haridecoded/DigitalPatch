@@ -1,8 +1,3 @@
-# MIDTERM
-#Yippie!
-
-# Gita - Cigarettes, Adaeze - Demographics, Hari -  Treatment
-
 #Adding in an ID column so that we can join the datasets
 cigarettes <- cbind(ID = c(1:nrow(cigarettes)), cigarettes)
 demographics <- cbind(ID = c(1:nrow(demographics)), demographics)
@@ -33,11 +28,11 @@ demographics$AGE2 <- demt$AGE3
 
 # DEMOGRAPHICS
 # Profiles of interest:
-  # 2) Smoker educational level
-  # 3) Smoker's current age
-  # 4) Smoker's gender
-  # 5) Smoker's employment status
-  # 6) Smoker's marital status
+# 2) Smoker educational level
+# 3) Smoker's current age
+# 4) Smoker's gender
+# 5) Smoker's employment status
+# 6) Smoker's marital status
 
 # 1) Which age (group) has the highest cessation rates (those who have ever smoked daily but haven't smoked in the past year)?
 
@@ -157,42 +152,3 @@ demographics %>%
 # 5) Relationship between smoking and employment status?
 # 6) At what age do women begin smoking on average? What about for men?
 # 7) Smoking and marital status?
-
-
-# CIGARETTE USAGE
-# Profiles of interest:
-  # 1) Smokers with high risk behavior
-  # 2) Smoker's daily cigarette consumption
-  # 3) Smoker initiation age
-        # a) first-time use
-        # b) first-time of daily use
-
-#-How many cigarettes a day was the average ex-smoker smoking? Is there a threshold where after you begin smoking a certain number of cigarettes each day your chances of cessation markedly decrease?
-#-What is the relationship between age of initiation and ex-smoker status? 
-#-What percentage of people who haven’t smoked in the past 30days also haven’t smoked in the past year?
-#-Do people who enjoy engaging in risky behavior tend to also smoke? Are they less likely to quit?
-
-
-# ALCOHOL
-# Profiles of interest:
-  # 1) Smoker with co-existing alcohol use:
-        # a) addictive drinking
-        # b) social drinking
-  
-#-How much alcohol does the average smoker tend to consume? How does this relate to quitting rates?
-#-Is binge or heavy alcohol use associated with smoking a pack of cigarettes each day?
-#-Are social drinkers who smoke, more likely to quit?
-  
-# MENTAL HEALTH
-# Profiles of interest: 
-  # 1) Smoker on psychiatric medication
-  # 2) Depressed smoker
-  # 3) Smoker who has received mental health treatment
-  
-#-How does being on psychiatric medication in the past year relate to whether or not someone has smoked in the past year?
-#-Do people who received outpatient mental health treatment smoke more than those who got inpatient help?
-#-Are those in counseling less likely to smoke?
-#-What percentage of smokers have sought a doctor for mental health medication?
-#-Relevance of depression in female/male smokers
-
-#Isolate sample of people who smoke who do not have any of the characteristics of interest. If sample size is small this adds weight to our argument that existing smoking apps do not benefit most smoker types.
