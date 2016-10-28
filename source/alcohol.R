@@ -31,6 +31,17 @@ cig_alcohol <- all_smokers %>% left_join(alc,by="ID") %>% mutate(cig_start = fac
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 # ALCMDays, CIGMDAYS, ALC_START, CIG_START -> QUIT SMOKING
 
 library(FactoMineR)

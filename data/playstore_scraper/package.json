@@ -1,0 +1,15 @@
+{
+  "name": "playstore_scraper",
+  "version": "1.0.0",
+  "description": "script to query app details on google playstore",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "google-play-scraper": "^3.1.6",
+    "jsonfile": "^2.4.0"
+  }
+}
