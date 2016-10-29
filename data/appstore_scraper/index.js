@@ -15,6 +15,7 @@ var appsFile = __dirname + '/apps.json';
 //});
 
 // Note: I also added the search terms "depression", treatment", "smoking depression"
+"quit substance", "smoking drinking depression"];
 
 store.search({
     term: "smoking depression",
