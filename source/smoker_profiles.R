@@ -1,5 +1,7 @@
 library(dplyr)
 library(ggplot2)
+library(MASS)
+library(colorRamps)
 
 smokers <- samsha %>% filter(CIGFLAG == '(1) Ever used (IRCIGRC = 1-4)')
 smokers <- cbind(ID = c(1:nrow(smokers)), smokers)
@@ -7,7 +9,6 @@ smokers <- cbind(ID = c(1:nrow(smokers)), smokers)
 # We consider the following factors to investigate smoker profiles: AGE2, HEALTH, IRSEX, ALCFLAG, BINGEHVY, RKFQDNGR, RKFQRSKY, NDSSANSP, TXILALEV, K6SCMON
 
 profiles <- smokers[,c('ID','AGE2', 'HEALTH', 'IRSEX', 'ALCFLAG', 'BINGEHVY', 'RKFQDNGR', 'RKFQRSKY', 'NDSSANSP', 'TXILALEV', 'K6SCMON')]
-
 
 
 # converting string to nummeric values
@@ -28,10 +29,19 @@ profiles[is.na(profiles)] <- 0
 apply(profiles, 2, function(x) any(is.na(x))) 
 
 
-pca <- prcomp(profiles[,2:11],center = TRUE,scale. = TRUE)
+pca <- prcomp(profiles[,3:11],center = TRUE,scale. = TRUE)
 plot(pca, type = "l")
 summary(pca)
+
+# Performing cluster analysis by excluding ID, and AGE2... gets too noisy with AGE2
 set.seed(20)
-clusters <- kmeans(profiles[,2:11],10,nstart = 20,algorithm = "Hartigan-Wong")
+clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
+
+profiles["CLUSTER"] <- clusters$cluster
+
+
+
+
+
 
 
