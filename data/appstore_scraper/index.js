@@ -1,4 +1,4 @@
-var gplay = require('google-play-scraper');
+var store = require('app-store-scraper');
 var jsonfile = require('jsonfile');
 
 var appsFile = __dirname + '/apps.json';
@@ -14,14 +14,15 @@ var appsFile = __dirname + '/apps.json';
 //    }).then(console.log)
 //});
 
-// Note: I also added the search terms "depression", "treatment", "smoking depression"
+// Note: I also added the search terms "depression", treatment", "smoking depression"
+"quit substance", "smoking drinking depression"];
 
-gplay.search({
-    term: "treatment",
+store.search({
+    term: "smoking depression",
     num: 100
 }).then(function (lists) {
     // have fun with the app data here
-    save(lists);
+    save(lists)
 }, function (data) {
     console.log(data);
 });
