@@ -3,7 +3,6 @@ library(ggplot2)
 library(MASS)
 library(colorRamps)
 library(RColorBrewer)
-library(alluvial)
 
 smokers <- samsha %>% filter(CIGFLAG == '(1) Ever used (IRCIGRC = 1-4)')
 smokers <- cbind(ID = c(1:nrow(smokers)), smokers)
@@ -43,9 +42,15 @@ clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
 # Assign the cluster back to the profiles dataframe
 profiles["CLUSTER"] <- clusters$cluster
 
-# PARALLEL PL<OTS
+# PARALLEL PLOTS... need to pretty
 k <- adjustcolor(brewer.pal(3, "Set1")[profiles$CLUSTER], alpha=.2)
 parcoord(profiles[,3:11], col=k,var.label= TRUE)
+
+# Cigarettes
+cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[787:788], smokers[799], smokers[805:808], smokers[810:813])
+
+
+
 
 
 
