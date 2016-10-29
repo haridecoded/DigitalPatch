@@ -14,14 +14,14 @@ var appsFile = __dirname + '/apps.json';
 //    }).then(console.log)
 //});
 
-
+// Note: I also added the search terms "depression", "treatment", "smoking depression"
 
 gplay.search({
-    term: "smoking",
+    term: "treatment",
     num: 100
 }).then(function (lists) {
     // have fun with the app data here
-    console.log(lists);
+    save(lists);
 }, function (data) {
     console.log(data);
 });
@@ -31,7 +31,7 @@ gplay.search({
 function save(response) {
     console.log("saving response....");
     apps = jsonfile.readFileSync(appsFile);
-    apps.concat(response);
+    apps = [apps,response]
     jsonfile.writeFile(appsFile, apps, function (err) {
         console.error(err);
     });
