@@ -40,9 +40,10 @@ summary(pca)
 set.seed(20)
 clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
 
+# Assign the cluster back to the profiles dataframe
 profiles["CLUSTER"] <- clusters$cluster
 
-
+# PARALLEL PL<OTS
 k <- adjustcolor(brewer.pal(3, "Set1")[profiles$CLUSTER], alpha=.2)
 parcoord(profiles[,3:11], col=k,var.label= TRUE)
 
