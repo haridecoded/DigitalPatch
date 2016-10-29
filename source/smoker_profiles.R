@@ -2,6 +2,7 @@ library(dplyr)
 library(ggplot2)
 library(MASS)
 library(colorRamps)
+library(RColorBrewer)
 
 smokers <- samsha %>% filter(CIGFLAG == '(1) Ever used (IRCIGRC = 1-4)')
 smokers <- cbind(ID = c(1:nrow(smokers)), smokers)
@@ -40,7 +41,14 @@ clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
 profiles["CLUSTER"] <- clusters$cluster
 
 
+k <- adjustcolor(brewer.pal(3, "Set1")[profiles$CLUSTER], alpha=.2)
+op <- par(mar=c(3, 1, 1, 1))
+parcoord(profiles[,3:11], col=k)
+par(op)
 
+library(alluvial)
+
+alluvial( profiles[,4:11], freq=profiles$CLUSTER, border=NA,col=k)
 
 
 
