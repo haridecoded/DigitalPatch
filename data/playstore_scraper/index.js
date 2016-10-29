@@ -18,7 +18,7 @@ var appsFile = __dirname + '/apps.json';
 
 gplay.search({
     term: "smoking",
-    num: 2
+    num: 100
 }).then(function (lists) {
     // have fun with the app data here
     console.log(lists);
