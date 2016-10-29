@@ -7,9 +7,10 @@ library(RColorBrewer)
 smokers <- samsha %>% filter(CIGFLAG == '(1) Ever used (IRCIGRC = 1-4)')
 smokers <- cbind(ID = c(1:nrow(smokers)), smokers)
 
-# We consider the following factors to investigate smoker profiles: AGE2, HEALTH, IRSEX, ALCFLAG, BINGEHVY, RKFQDNGR, RKFQRSKY, NDSSDNSP, TXILALEV, K6SCMON
+# We consider the following factors to investigate smoker profiles: age, overall health, gender, if they've ever used alcohol, severity of alcohol use in the past month, those who get a kick out of doing dangerous things, those who like to test themselves by doing risky things, if they were calculated to have a nicotine dependence, if they received treatment for drug/alcohol in their lifetime, and their level of psychological distress in the past month. These are the variables AGE2, HEALTH, IRSEX, ALCFLAG, BINGEHVY, RKFQDNGR, RKFQRSKY, NDSSDNSP, TXILALEV, SPDMON respectively.
 
-profiles <- smokers[,c('ID','AGE2', 'IRSEX','HEALTH', 'ALCFLAG', 'BINGEHVY', 'RKFQDNGR', 'RKFQRSKY', 'NDSSDNSP', 'TXILALEV', 'K6SCMON')]
+profiles <- smokers[,c('ID','AGE2', 'IRSEX','HEALTH', 'ALCFLAG', 'BINGEHVY', 'RKFQDNGR', 'RKFQRSKY', 'NDSSDNSP', 'TXILALEV', 'K6SCMON')] 
+#change to SPDMON
 
 
 # converting string to nummeric values
