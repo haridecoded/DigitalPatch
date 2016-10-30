@@ -21,7 +21,7 @@ library(ggradar)
 smokers <- samsha %>% filter(CIGFLAG == '(1) Ever used (IRCIGRC = 1-4)') #Selecting for people who have ever smoked
 smokers <- cbind(ID = c(1:nrow(smokers)), smokers) #Adding an ID to link across datasets
 
-# We consider the following factors to investigate smoker profiles: age, overall health, gender, if they've ever used alcohol, severity of alcohol use in the past month, those who get a kick out of doing dangerous things, those who like to test themselves by doing risky things, if they were calculated to have a nicotine dependence, if they received treatment for drug/alcohol in their lifetime, and their level of psychological distress in the past year. These are the variables AGE2, HEALTH, IRSEX, ALCFLAG, BINGEHVY, RKFQDNGR, RKFQRSKY, NDSSDNSP, TXILALEV, SPDYR, respectively.
+# We consider the following factors to investigate smoker profiles: age, overall health, gender, if they've ever used alcohol, severity of alcohol use in the past month, those who like to test themselves by doing risky things, if they were calculated to have a nicotine dependence, if they received treatment for drug/alcohol in their lifetime, and their level of psychological distress in the past year. These are the variables AGE2, HEALTH, IRSEX, ALCFLAG, BINGEHVY, RKFQRSKY, NDSSDNSP, TXILALEV, SPDYR, respectively.
 
 # NOTE (Hari): removing RKFQDNGR because the profiles almost align with RKFQRSKY
 
@@ -85,7 +85,6 @@ set.seed(20) #helps set reproducible random numbers
 <<<<<<< .merge_file_N2gfzk
 clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
 =======
-#My last point is here
 clusters <- kmeans(profiles[,4:10],8,nstart = 20,algorithm = "Hartigan-Wong")
 >>>>>>> .merge_file_tHMdmA
 
@@ -100,20 +99,18 @@ parcoord(profiles[,3:11], col=k,var.label= TRUE)
 # Cigarettes
 cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[787:788], smokers[799], smokers[805:808], smokers[810:813])
 
-# Demographics Analysis by Cluster
-
-#Typical Age for a smoker
-
-
-# Cluster Analysis Summary
-# Cluster 1
-# Cluster 2
-
-
 =======
 #----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
 
 plot_clus_coord(clusters, profiles[,4:10])
+
+
+#----------------- PLOTS FOR DEMOGRAPHICS ---------------------------------
+
+
+# Demographics Analysis by Cluster
+
+#Typical Age for a smoker
 
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
@@ -134,7 +131,7 @@ cigarettes[is.na(cigarettes)] <- 0
 cigarettes["CLUSTER"] <- clusters$cluster
 
 #names(cigarettes)[2:6] =
-#  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILy-USE")
+#  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILY-USE")
 
 # groups are of different sizes, so we have to normalize data to make meaningful comparisons between groups on the radar plot
 
@@ -259,7 +256,5 @@ radarchart( radar_data[c(1:2,10),2:6] , axistype=1 ,
             vlcex=0.8 
 )
 >>>>>>> .merge_file_tHMdmA
-
-
 
 
