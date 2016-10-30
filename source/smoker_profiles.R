@@ -146,6 +146,16 @@ demographics["CLUSTER"] <- clusters$cluster
 #names(cigarettes)[2:6] =
 #  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILY-USE")
 
+ggplot(demographics[,-(c(8:11))],
+       aes(weight = Freq,
+           axis1 = Age, axis2 = Sex, axis3 = Race, axis4 = Marital_Status, axis5 = Employ_Status, axis6 = Quit)) +
+  geom_alluvium() +
+  geom_stratum() +
+  geom_text(stat = "stratum") +
+  ggtitle("Demographic characteristics of smokers") +
+  theme_bw()
+dev.off()
+
 # groups are of different sizes, so we have to normalize data to make meaningful comparisons between groups on the radar plot
 
 radar_data <- cigarettes %>% 
