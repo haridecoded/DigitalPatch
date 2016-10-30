@@ -239,9 +239,3 @@ radarchart( radar_data[c(1:2,10),2:6] , axistype=1 ,
 
 
 
-
-
-
-
-
-
