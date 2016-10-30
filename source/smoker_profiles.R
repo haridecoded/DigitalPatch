@@ -82,28 +82,11 @@ summary(pca)
 # Performing cluster analysis by excluding ID, and AGE2... gets too noisy with AGE2
 set.seed(20) #helps set reproducible random numbers
 
-<<<<<<< HEAD
-<<<<<<< .merge_file_N2gfzk
-clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
-=======
-=======
->>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
 clusters <- kmeans(profiles[,4:10],8,nstart = 20,algorithm = "Hartigan-Wong")
 
 # Assign the cluster back to the profiles dataframe
 profiles["CLUSTER"] <- clusters$cluster
 
-<<<<<<< HEAD
-<<<<<<< .merge_file_N2gfzk
-# PARALLEL PLOTS... need to pretty
-k <- adjustcolor(brewer.pal(3, "Set1")[profiles$CLUSTER], alpha=.2)
-parcoord(profiles[,3:11], col=k,var.label= TRUE)
-
-# Cigarettes
-cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[787:788], smokers[799], smokers[805:808], smokers[810:813])
-
-=======
->>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
 #----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
 
 plot_clus_coord(clusters, profiles[,4:10])
@@ -114,9 +97,9 @@ plot_clus_coord(clusters, profiles[,4:10])
 
 # Demographics Analysis by Cluster
 
-Do you want to try this for demographics ?
+#Do you want to try this for demographics ?
 
-profiles, age, sex, marital status, quit not quit , and we can only highlight the band of people who have quit.
+#profiles, age, sex, marital status, quit not quit , and we can only highlight the band of people who have quit.
 
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
