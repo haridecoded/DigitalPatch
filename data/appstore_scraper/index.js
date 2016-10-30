@@ -22,7 +22,7 @@ store.search({
     num: 100
 }).then(function (lists) {
     // have fun with the app data here
-    save(lists)
+    save(lists);
 }, function (data) {
     console.log(data);
 });
