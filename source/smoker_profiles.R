@@ -7,6 +7,10 @@ install.packages('devtools')
 devtools::install_github("ricardo-bion/ggradar", dependencies=TRUE)
 devtools::install_github("pablo14/clusplus")
 install.packages('fmsb')
+if (!require(devtools)) {
+  install.packages("devtools")
+}
+devtools::install_github("corybrunson/ggalluvial")
 
 library(dplyr)
 library(ggplot2)
@@ -19,7 +23,7 @@ library(scales)
 library(ggradar)
 
 smokers <- samsha %>% filter(CIGFLAG == '(1) Ever used (IRCIGRC = 1-4)') #Selecting for people who have ever smoked
-smokers <- cbind(ID = c(1:nrow(smokers)), smokers) #Adding an ID to link across datasets
+smokers <- cbind(ID = c(1:nrow(smokers)), smokers) 
 
 # We consider the following factors to investigate smoker profiles: age, overall health, gender, if they've ever used alcohol, severity of alcohol use in the past month, those who like to test themselves by doing risky things, if they were calculated to have a nicotine dependence, if they received treatment for drug/alcohol in their lifetime, and their level of psychological distress in the past year. These are the variables AGE2, HEALTH, IRSEX, ALCFLAG, BINGEHVY, RKFQRSKY, NDSSDNSP, TXILALEV, SPDYR, respectively.
 
@@ -104,6 +108,9 @@ cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[
 
 =======
 >>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
+
+
+
 #----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
 
 plot_clus_coord(clusters, profiles[,4:10])
@@ -111,12 +118,48 @@ plot_clus_coord(clusters, profiles[,4:10])
 
 #----------------- PLOTS FOR DEMOGRAPHICS ---------------------------------
 
+#For each of the identified smoker profiles we explore demographics based on age, gender, race, employment status, and marital status (these are the variables AGE2, IRSEX, NEWRACE2, EMPSTAT4, IRMARIT) and compared them to quit vs not-quit condition. 
 
-# Demographics Analysis by Cluster
+# be sure to re-scale if necessary
 
-Do you want to try this for demographics ?
+#AGE2: 1-17 scale, 12years to 65years+
+#IRSEX: 1-2 scale, male or female
+#NEWRACE2: 1-7 scale, white, black, native american, native/pacific, asian, multi, hispanic
+#EMPSTAT4: 1-4 scale, full-time, part-time, unemployed, ignore 4
+#IRMARIT: 1-4 scale, married, widowed, divorced/separated, never married
 
-profiles, age, sex, marital status, quit not quit , and we can only highlight the band of people who have quit.
+demographics <- samsha[,c('CASEID', 'AGE2', 'IRSEX', 'NEWRACE2', 'EMPSTAT4', 'IRMARIT' ,'SERVICE', "ACTDEVER", 'COMBATPY','EDUCCAT2')]
+demographics <- semi_join(demographics, smokers, by='CASEID')
+
+demographics <- cbind(ID = c(1:nrow(smokers)), demographics) #Add ID for demographics to link to clusters
+
+demographics <- demographics %>%  
+  mutate(AGE2 = as.numeric(substr(AGE2,2,3))) %>% 
+  mutate(IRSEX = as.numeric(substr(IRSEX,2,2))) %>% 
+  mutate(NEWRACE2 = as.numeric(substr(NEWRACE2,2,2))) %>% 
+  mutate(EMPSTAT4 = as.numeric(substr(EMPSTAT4,2,2))) %>% 
+  mutate(IRMARIT = as.numeric(substr(IRMARIT,2,2))) %>% 
+  mutate(SERVICE = as.numeric(substr(SERVICE,2,2))) %>% 
+  mutate(EDUCCAT2 = as.numeric(substr(EDUCCAT2,2,2))) 
+
+demographics["CLUSTER"] <- clusters$cluster
+
+#names(cigarettes)[2:6] =
+#  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILY-USE")
+
+
+
+# groups are of different sizes, so we have to normalize data to make meaningful comparisons between groups on the radar plot
+
+radar_data <- cigarettes %>% 
+  mutate_each(funs(rescale), -CLUSTER,-ID) %>% 
+  group_by(CLUSTER) %>% 
+  summarise(has_quit = mean(CIGYR),first_use_age = mean(CIGAFU),daily_use_age = mean(DCIGAFU), avg_cig = mean(CIGAVGD), cig_alc = mean(CIGALCMO)) %>% 
+  arrange(CLUSTER)
+
+# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
+radar_data=rbind(rep(1,6), rep(0,6) , radar_data)
+
 
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
