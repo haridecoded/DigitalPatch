@@ -2,7 +2,8 @@ var store = require('app-store-scraper');
 var jsonfile = require('jsonfile');
 
 var appsFile = __dirname + '/apps.json';
-//terms = ["quit smoking", "stop smoking", "smoking cessation", "alcohol", "quit drinking", "quit substance", "smoking drinking depression"];
+//terms = ["quit smoking", "stop smoking", "smoking cessation", "alcohol", 
+//"quit drinking", "quit substance", "smoking drinking depression"];
 
 //terms.forEach(function (item, index) {
 
@@ -15,10 +16,9 @@ var appsFile = __dirname + '/apps.json';
 //});
 
 // Note: I also added the search terms "depression", treatment", "smoking depression"
-"quit substance", "smoking drinking depression"];
 
 store.search({
-    term: "smoking depression",
+    term: "quit smoking",
     num: 100
 }).then(function (lists) {
     // have fun with the app data here

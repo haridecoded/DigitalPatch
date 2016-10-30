@@ -44,7 +44,6 @@ summary(pca)
 # Performing cluster analysis by excluding ID, and AGE2... gets too noisy with AGE2
 set.seed(20) #helps set reproducible random numbers
 
-#My last point is here
 clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
 
 # Assign the cluster back to the profiles dataframe
@@ -57,7 +56,14 @@ parcoord(profiles[,3:11], col=k,var.label= TRUE)
 # Cigarettes
 cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[787:788], smokers[799], smokers[805:808], smokers[810:813])
 
+# Demographics Analysis by Cluster
 
+#Typical Age for a smoker
+
+
+# Cluster Analysis Summary
+# Cluster 1
+# Cluster 2
 
 
 
