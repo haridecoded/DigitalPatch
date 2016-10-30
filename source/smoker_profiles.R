@@ -11,6 +11,7 @@ if (!require(devtools)) {
   install.packages("devtools")
 }
 devtools::install_github("corybrunson/ggalluvial")
+devtools::install_github("mbojan/alluvial")
 
 library(dplyr)
 library(ggplot2)
@@ -21,6 +22,8 @@ library(fmsb)
 library(clusplus)
 library(scales)
 library(ggradar)
+library(devtools)
+library(alluvial)
 
 smokers <- samsha %>% filter(CIGFLAG == '(1) Ever used (IRCIGRC = 1-4)') #Selecting for people who have ever smoked
 smokers <- cbind(ID = c(1:nrow(smokers)), smokers) 
@@ -102,29 +105,45 @@ plot_clus_coord(clusters, profiles[,4:10])
 
 # be sure to re-scale if necessary
 
-#AGE2: 1-17 scale, 12years to 65years+
+#CIGAFU: 1-4 scale, 14 or younger to 18+
 #IRSEX: 1-2 scale, male or female
 #NEWRACE2: 1-7 scale, white, black, native american, native/pacific, asian, multi, hispanic
 #EMPSTAT4: 1-4 scale, full-time, part-time, unemployed, ignore 4
 #IRMARIT: 1-4 scale, married, widowed, divorced/separated, never married
 
-demographics <- samsha[,c('CASEID', 'AGE2', 'IRSEX', 'NEWRACE2', 'EMPSTAT4', 'IRMARIT' ,'SERVICE', "ACTDEVER", 'COMBATPY','EDUCCAT2')]
-demographics <- semi_join(demographics, smokers, by='CASEID')
+demographics <- samsha[,c('CASEID', 'IRSEX','AGE2', 'NEWRACE2', 'IRMARIT','EMPSTAT4')]
+demographics2 <- semi_join(cbind(demographics[-3], samsha$CIGAFU), smokers, by='CASEID')
 
-demographics <- cbind(ID = c(1:nrow(smokers)), demographics) #Add ID for demographics to link to clusters
+demographics2 <- cbind(ID = c(1:nrow(smokers)), demographics2) #Add ID for demographics to link to clusters
 
-demographics <- demographics %>%  
-  mutate(AGE2 = as.numeric(substr(AGE2,2,3))) %>% 
+demographics2 <- demographics2 %>%   
   mutate(IRSEX = as.numeric(substr(IRSEX,2,2))) %>% 
   mutate(NEWRACE2 = as.numeric(substr(NEWRACE2,2,2))) %>% 
   mutate(EMPSTAT4 = as.numeric(substr(EMPSTAT4,2,2))) %>% 
   mutate(IRMARIT = as.numeric(substr(IRMARIT,2,2))) %>% 
-  mutate(SERVICE = as.numeric(substr(SERVICE,2,2))) %>% 
-  mutate(EDUCCAT2 = as.numeric(substr(EDUCCAT2,2,2))) 
+  mutate(`samsha$CIGAFU` = as.numeric(substr(`samsha$CIGAFU`,2,2)))
 
-demographics["CLUSTER"] <- clusters$cluster
+CIGYR2 <- as.character(cigarettes$CIGYR)
+demographics2['Quit'] <- cigarettes$CIGYR  
+demographics2['Freq'] <- length(CIGYR2[which(CIGYR2 == '0')])/length(CIGYR2)
+#Freq should be quit over non-quit
+demographics2["CLUSTER"] <- clusters$cluster
 
+colnames(demographics2)[3:7] <- c('Sex', 'Race', 'Marital_Status', 'Work', 'Initial_Age')
+demographics2 <- demographics2[,c(1, 2, 7, 3:6, 8:10)]
+demographics2$Quit <- ifelse(demographics2$Quit == '1', "No", "Yes")
+demographics2$Sex <- ifelse(demographics2$Sex == '2', "Female", "Male")
 
+demographics2$Marital_Status[is.na(demographics2$Marital_Status)] <- 0
+demographics2$Work[is.na(demographics2$Work)] <- 0
+
+# reverse scale Marital_Status and Work
+demographics2 <- demographics2 %>% 
+  mutate(Marital_Status = ifelse(Marital_Status == 0,0,5-Marital_Status)) %>% 
+  mutate(Work = ifelse(Work == 0, 0, 5-Work))
+
+alluvial(demographics2[,c(3:4, 6:8)], freq = demographics2$Freq, col = ifelse(demographics2$Quit == "Yes", "darkseagreen2", "grey"), border = ifelse(demographics2$Quit == "Yes", "darkseagreen2", "grey"), layer = demographics2$Quit != "Yes", alpha = 0.8)
+#, Quit, Sex, Age, Race, Marital_Status, Work
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
 
