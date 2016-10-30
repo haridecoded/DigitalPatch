@@ -7,42 +7,51 @@ library(ggplot2)
 library(data.table)
 library(stringr)
 
+# NOTE: I just loaded the csv file directly on RStudio
+playstore <- cbind(ID = c(1:nrow(playstore)), playstore) # adding a primary key column
 
-x <- c('smoking', 'nicotine', 'alcohol', 'depression', 'health', 'substance')
-y <- c('smoking', 'nicotine', 'alcohol', 'depression', 'health', 'substance')
-apps <- data <- expand.grid(X=x, Y=y)
+# filter only apps that contain smoking/nicotine/ cigarette
+filteredApps <- playstore %>% 
+  mutate(relevance = ifelse(grepl("smoking",title) | grepl("smoking",summary) | grepl("cigarette",title) | grepl("cigarette",summary) | grepl("nicotine",title) | grepl("nicotine",summary), TRUE, FALSE )) %>% 
+  filter(relevance == TRUE)
 
-Clean_String <- function(string){
-  # Lowercase
-  temp <- tolower(string)
-  #' Remove everything that is not a number or letter (may want to keep more 
-  #' stuff in your actual analyses). 
-  temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
-  # Shrink down to just one white space
-  temp <- stringr::str_replace_all(temp,"[\\s]+", " ")
-  # Split it
-  temp <- stringr::str_split(temp, " ")[[1]]
-  # Get rid of trailing "" if necessary
-  indexes <- which(temp == "")
-  if(length(indexes) > 0){
-    temp <- temp[-indexes]
-  }
-  return(temp)
+
+# synonyms lookup table for matching
+
+lookup <- vector(mode="list",length = 5)
+names(lookup) <- c("smoking", "alcohol", "depression", "health", "substance")
+lookup[["smoking"]] <- c("smoking", "nicotine", "cigarette")
+lookup[["alcohol"]] <- c("alcohol", "drinking", "drunk")
+lookup[["depression"]] <- c("depression", "mental")
+lookup[["health"]] <- c("health", "cancer", "medicine","treatment")
+lookup[["substance"]] <- c("substance", "drug")
+
+# construct dataframe for HEATMAP
+
+x <- c('smoking', 'alcohol', 'depression', 'health', 'substance')
+y <- c('smoking', 'alcohol', 'depression', 'health', 'substance')
+heatmap_data <- expand.grid(X=x, Y=y) # generates a data frame with all combinations of X and Y
+heatmap_data <- cbind(ID = c(1:nrow(heatmap_data)), heatmap_data) # adding primary key column
+
+
+# function to return count of apps that match
+
+getMatches <- function(x,y){
+ 
+  matches <- filteredApps %>% 
+    filter(grepl(paste(lookup[[x]], collapse = "|"),paste(title, summary, sep= " ")) & grepl(paste(lookup[[y]], collapse = "|"),paste(title, summary, sep= " ")))
+   
+  return(nrow(matches))
 }
 
-playstore <- cbind(ID = c(1:nrow(playstore)), playstore)
 
+heatmap_data <- heatmap_data %>% group_by(ID) %>% 
+    mutate(total = getMatches(X,Y)) %>% 
+    ungroup()
 
-playstore <- playstore  %>% 
-  group_by(ID) %>% 
-  mutate(terms = I(list(Clean_String(summary)))) %>% 
-  ungroup()
-
-
-
-
-
-
+ggplot(heatmap_data, aes(X, Y, z= total)) + geom_tile(aes(fill = total)) + 
+  theme_bw() + 
+  scale_fill_gradient(low="gray100", high="cadetblue") 
 
 
 
