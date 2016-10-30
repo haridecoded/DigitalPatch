@@ -91,25 +91,6 @@ clusters <- kmeans(profiles[,4:10],8,nstart = 20,algorithm = "Hartigan-Wong")
 # Assign the cluster back to the profiles dataframe
 profiles["CLUSTER"] <- clusters$cluster
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< .merge_file_N2gfzk
-# PARALLEL PLOTS... need to pretty
-k <- adjustcolor(brewer.pal(3, "Set1")[profiles$CLUSTER], alpha=.2)
-parcoord(profiles[,3:11], col=k,var.label= TRUE)
-
-# Cigarettes
-cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[787:788], smokers[799], smokers[805:808], smokers[810:813])
-
-=======
->>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
-
-
-
-=======
->>>>>>> 2083d5e4bbd5e8e52b247652e6f74ea302e749d5
-<<<<<<< HEAD
-
 #----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
 
 plot_clus_coord(clusters, profiles[,4:10])
@@ -143,35 +124,6 @@ demographics <- demographics %>%
 
 demographics["CLUSTER"] <- clusters$cluster
 
-#names(cigarettes)[2:6] =
-#  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILY-USE")
-
-ggplot(demographics[,-(c(8:11))],
-       aes(weight = Freq,
-           axis1 = Age, axis2 = Sex, axis3 = Race, axis4 = Marital_Status, axis5 = Employ_Status, axis6 = Quit)) +
-  geom_alluvium() +
-  geom_stratum() +
-  geom_text(stat = "stratum") +
-  ggtitle("Demographic characteristics of smokers") +
-  theme_bw()
-dev.off()
-
-# groups are of different sizes, so we have to normalize data to make meaningful comparisons between groups on the radar plot
-
-radar_data <- cigarettes %>% 
-  mutate_each(funs(rescale), -CLUSTER,-ID) %>% 
-  group_by(CLUSTER) %>% 
-  summarise(has_quit = mean(CIGYR),first_use_age = mean(CIGAFU),daily_use_age = mean(DCIGAFU), avg_cig = mean(CIGAVGD), cig_alc = mean(CIGALCMO)) %>% 
-  arrange(CLUSTER)
-
-# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
-radar_data=rbind(rep(1,6), rep(0,6) , radar_data)
-
-=======
-#Do you want to try this for demographics ?
-
-#profiles, age, sex, marital status, quit not quit , and we can only highlight the band of people who have quit.
->>>>>>> 2083d5e4bbd5e8e52b247652e6f74ea302e749d5
 
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
