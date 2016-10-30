@@ -7,3 +7,6 @@ library(data.table)
 
 data = fread('playstore.csv')
 
+x <- c('smoking', 'nicotine', 'alcohol', 'depression', 'treatment', 'health')
+y <- c('smoking', 'nicotine', 'alcohol', 'depression', 'treatment', 'health')
+apps <- data <- expand.grid(X=x, Y=y)
