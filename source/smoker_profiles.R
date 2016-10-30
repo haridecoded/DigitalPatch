@@ -86,17 +86,12 @@ summary(pca)
 # Performing cluster analysis by excluding ID, and AGE2... gets too noisy with AGE2
 set.seed(20) #helps set reproducible random numbers
 
-<<<<<<< HEAD
-<<<<<<< .merge_file_N2gfzk
-clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
-=======
-=======
->>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
 clusters <- kmeans(profiles[,4:10],8,nstart = 20,algorithm = "Hartigan-Wong")
 
 # Assign the cluster back to the profiles dataframe
 profiles["CLUSTER"] <- clusters$cluster
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< .merge_file_N2gfzk
 # PARALLEL PLOTS... need to pretty
@@ -111,6 +106,8 @@ cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[
 
 
 
+=======
+>>>>>>> 2083d5e4bbd5e8e52b247652e6f74ea302e749d5
 #----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
 
 plot_clus_coord(clusters, profiles[,4:10])
@@ -147,6 +144,7 @@ demographics["CLUSTER"] <- clusters$cluster
 #names(cigarettes)[2:6] =
 #  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILY-USE")
 
+<<<<<<< HEAD
 
 
 # groups are of different sizes, so we have to normalize data to make meaningful comparisons between groups on the radar plot
@@ -160,6 +158,11 @@ radar_data <- cigarettes %>%
 # To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
 radar_data=rbind(rep(1,6), rep(0,6) , radar_data)
 
+=======
+#Do you want to try this for demographics ?
+
+#profiles, age, sex, marital status, quit not quit , and we can only highlight the band of people who have quit.
+>>>>>>> 2083d5e4bbd5e8e52b247652e6f74ea302e749d5
 
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
