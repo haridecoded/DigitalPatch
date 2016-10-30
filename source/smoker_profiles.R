@@ -124,19 +124,7 @@ demographics <- demographics %>%
 
 demographics["CLUSTER"] <- clusters$cluster
 
-#names(cigarettes)[2:6] =
-#  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILY-USE")
 
-# groups are of different sizes, so we have to normalize data to make meaningful comparisons between groups on the radar plot
-
-radar_data <- cigarettes %>% 
-  mutate_each(funs(rescale), -CLUSTER,-ID) %>% 
-  group_by(CLUSTER) %>% 
-  summarise(has_quit = mean(CIGYR),first_use_age = mean(CIGAFU),daily_use_age = mean(DCIGAFU), avg_cig = mean(CIGAVGD), cig_alc = mean(CIGALCMO)) %>% 
-  arrange(CLUSTER)
-
-# To use the fmsb package, I have to add 2 lines to the dataframe: the max and min of each topic to show on the plot!
-radar_data=rbind(rep(1,6), rep(0,6) , radar_data)
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
 
