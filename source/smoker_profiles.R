@@ -112,6 +112,8 @@ plot_clus_coord(clusters, profiles[,4:10])
 
 
 # Demographics Analysis by Cluster
+
+
 =======
 #----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
 >>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
