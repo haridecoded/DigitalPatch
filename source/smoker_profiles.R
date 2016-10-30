@@ -108,6 +108,8 @@ cigarettes <- data.frame(smokers[1],smokers[587:589], smokers[682:685], smokers[
 
 =======
 >>>>>>> 2083d5e4bbd5e8e52b247652e6f74ea302e749d5
+<<<<<<< HEAD
+
 #----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
 
 plot_clus_coord(clusters, profiles[,4:10])
@@ -143,9 +145,6 @@ demographics["CLUSTER"] <- clusters$cluster
 
 #names(cigarettes)[2:6] =
 #  c("DAILY-AVG", " HAS-QUIT", "CIG&ALCOHOL", "AGE-FIRST-USE", "AGE-DAILY-USE")
-
-<<<<<<< HEAD
-
 
 # groups are of different sizes, so we have to normalize data to make meaningful comparisons between groups on the radar plot
 
