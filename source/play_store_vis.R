@@ -39,7 +39,7 @@ heatmap_data <- cbind(ID = c(1:nrow(heatmap_data)), heatmap_data) # adding prima
 getMatches <- function(x,y){
  
   matches <- filteredApps %>% 
-    filter(grepl(paste(lookup[[x]], collapse = "|"),paste(title, summary, sep= " ")) & grepl(paste(lookup[[y]], collapse = "|"),paste(title, summary, sep= " ")))
+    filter(grepl(paste(lookup[[x]], collapse = "|"),paste(title, summary, sep= " ")) , grepl(paste(lookup[[y]], collapse = "|"),paste(title, summary, sep= " ")))
    
   return(nrow(matches))
 }
@@ -50,6 +50,16 @@ heatmap_data <- heatmap_data %>% group_by(ID) %>%
     ungroup()
 
 ggplot(heatmap_data, aes(X, Y, z= total)) + geom_tile(aes(fill = total)) + 
+  theme_bw() + 
+  scale_fill_gradient(low="gray100", high="cadetblue") 
+
+# replotting by removing smoking-smoking for scale
+
+heatmap_data1 <- heatmap_data %>% filter(X != "smoking"| Y != "smoking")
+
+heatmap_data1 <- heatmap_data %>% mutate(total = ifelse(X != "smoking"| Y != "smoking",total, 0))
+
+ggplot(heatmap_data1, aes(X, Y, z= total)) + geom_tile(aes(fill = total)) + 
   theme_bw() + 
   scale_fill_gradient(low="gray100", high="cadetblue") 
 
