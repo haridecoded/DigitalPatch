@@ -42,15 +42,15 @@ profiles <- smokers[,c('ID','AGE2', 'IRSEX','HEALTH', 'ALCFLAG', 'BINGEHVY', 'RK
 
 # converting string to numeric values
 profiles <- profiles %>%  
-    mutate(AGE2 = as.numeric(substr(AGE2,2,3))) %>% 
-    mutate(HEALTH = as.numeric(substr(HEALTH,2,2))) %>% 
-    mutate(IRSEX = as.numeric(substr(IRSEX,2,2))) %>% 
-    mutate(ALCFLAG = as.numeric(substr(ALCFLAG,2,2))) %>% 
-    mutate(BINGEHVY = as.numeric(substr(BINGEHVY,2,2))) %>% 
-    mutate(RKFQRSKY = as.numeric(substr(RKFQRSKY,2,2))) %>% 
-    mutate(TXILALEV = as.numeric(substr(TXILALEV,2,2))) %>% 
-    mutate(NDSSDNSP = as.numeric(substr(NDSSDNSP,2,2))) %>%
-    mutate(SPDYR = as.numeric(substr(SPDYR,2,2)))
+  mutate(AGE2 = as.numeric(substr(AGE2,2,3))) %>% 
+  mutate(HEALTH = as.numeric(substr(HEALTH,2,2))) %>% 
+  mutate(IRSEX = as.numeric(substr(IRSEX,2,2))) %>% 
+  mutate(ALCFLAG = as.numeric(substr(ALCFLAG,2,2))) %>% 
+  mutate(BINGEHVY = as.numeric(substr(BINGEHVY,2,2))) %>% 
+  mutate(RKFQRSKY = as.numeric(substr(RKFQRSKY,2,2))) %>% 
+  mutate(TXILALEV = as.numeric(substr(TXILALEV,2,2))) %>% 
+  mutate(NDSSDNSP = as.numeric(substr(NDSSDNSP,2,2))) %>%
+  mutate(SPDYR = as.numeric(substr(SPDYR,2,2)))
 
 
 # reverse scale HEALTH and BINGEHVY
@@ -58,7 +58,7 @@ profiles <- profiles %>%
   mutate(HEALTH = ifelse(HEALTH == 0,0,6-HEALTH)) %>% 
   mutate(BINGEHVY = 5-BINGEHVY)
 
-  
+
 # replacing all NA with 0
 profiles[is.na(profiles)] <- 0
 
@@ -82,15 +82,18 @@ summary(pca)
 # Performing cluster analysis by excluding ID, and AGE2... gets too noisy with AGE2
 set.seed(20) #helps set reproducible random numbers
 
+<<<<<<< HEAD
 <<<<<<< .merge_file_N2gfzk
 clusters <- kmeans(profiles[,3:11],8,nstart = 20,algorithm = "Hartigan-Wong")
 =======
+=======
+>>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
 clusters <- kmeans(profiles[,4:10],8,nstart = 20,algorithm = "Hartigan-Wong")
->>>>>>> .merge_file_tHMdmA
 
 # Assign the cluster back to the profiles dataframe
 profiles["CLUSTER"] <- clusters$cluster
 
+<<<<<<< HEAD
 <<<<<<< .merge_file_N2gfzk
 # PARALLEL PLOTS... need to pretty
 k <- adjustcolor(brewer.pal(3, "Set1")[profiles$CLUSTER], alpha=.2)
@@ -109,6 +112,9 @@ plot_clus_coord(clusters, profiles[,4:10])
 
 
 # Demographics Analysis by Cluster
+=======
+#----------------- PARALLEL PLOTS TO VISUALIZE CLUSTERS--------------------------
+>>>>>>> 630798f2b395d2a3602d87a0b5cff7a127d5e458
 
 #Typical Age for a smoker
 
@@ -255,6 +261,4 @@ radarchart( radar_data[c(1:2,10),2:6] , axistype=1 ,
             #custom labels
             vlcex=0.8 
 )
->>>>>>> .merge_file_tHMdmA
-
 
