@@ -145,8 +145,7 @@ demographics2 <- demographics2 %>%
 
 demographics2 %>% group_by(Initial_Age, Sex, Marital_Status, Work, Quit) %>%
   summarize(n = sum(Freq)) -> x
-
-alluvial(x[,1:5], freq = x$n, col = ifelse(x$Quit == "Yes", "darkseagreen2", "grey"), border = ifelse(x$Quit == "Yes", "darkseagreen2", "grey"), layer = x$Quit != "Yes", alpha = 0.8, blocks=FALSE)
+alluvial(x[,1:5], freq = x$n, col = ifelse(x$Quit == "Yes", "darkseagreen2", "grey"), border = ifelse(x$Quit == "Yes", "darkseagreen2", "grey"), layer = x$Quit != "Yes", alpha = 0.8, blocks=TRUE)
 #, Quit, Sex, Age, Race, Marital_Status, Work
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
