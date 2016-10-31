@@ -1,5 +1,6 @@
 install.packages('dplyr')
 install.packages('ggplot2')
+install.packages('data.table')
 install.packages("stringr", dependencies = TRUE)
 
 library(dplyr)
@@ -12,7 +13,7 @@ appstore <- cbind(ID = c(1:nrow(appstore)), appstore) # adding a primary key col
 
 # filter only apps that contain smoking/nicotine/cigarette
 filteredApps <- appstore %>% 
-  mutate(relevance = ifelse(grepl("smoking",title) | grepl("smoking",summary) | grepl("cigarette",title) | grepl("cigarette",summary) | grepl("nicotine",title) | grepl("nicotine",summary), TRUE, FALSE )) %>% 
+  mutate(relevance = ifelse(grepl("smoking",title) | grepl("smoking",description) | grepl("cigarette",title) | grepl("cigarette",description) | grepl("nicotine",title) | grepl("nicotine",description), TRUE, FALSE )) %>% 
   filter(relevance == TRUE)
 
 
@@ -39,7 +40,7 @@ heatmap_data <- cbind(ID = c(1:nrow(heatmap_data)), heatmap_data) # adding prima
 getMatches <- function(x,y){
   
   matches <- filteredApps %>% 
-    filter(grepl(paste(lookup[[x]], collapse = "|"),paste(title, summary, sep= " ")) , grepl(paste(lookup[[y]], collapse = "|"),paste(title, summary, sep= " ")))
+    filter(grepl(paste(lookup[[x]], collapse = "|"),paste(title, description, sep= " ")) , grepl(paste(lookup[[y]], collapse = "|"),paste(title, description, sep= " ")))
   
   return(nrow(matches))
 }

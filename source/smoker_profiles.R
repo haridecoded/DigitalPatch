@@ -125,7 +125,8 @@ demographics2 <- demographics2 %>%
 
 CIGYR2 <- as.character(cigarettes$CIGYR)
 demographics2['Quit'] <- cigarettes$CIGYR  
-demographics2['Freq'] <- length(CIGYR2[which(CIGYR2 == '0')])/length(CIGYR2)
+demographics2['Freq'] <- 1
+#length(CIGYR2[which(CIGYR2 == '0')])/length(CIGYR2)
 #Freq should be quit over non-quit
 demographics2["CLUSTER"] <- clusters$cluster
 
@@ -142,7 +143,10 @@ demographics2 <- demographics2 %>%
   mutate(Marital_Status = ifelse(Marital_Status == 0,0,5-Marital_Status)) %>% 
   mutate(Work = ifelse(Work == 0, 0, 5-Work))
 
-alluvial(demographics2[,c(3:4, 6:8)], freq = demographics2$Freq, col = ifelse(demographics2$Quit == "Yes", "darkseagreen2", "grey"), border = ifelse(demographics2$Quit == "Yes", "darkseagreen2", "grey"), layer = demographics2$Quit != "Yes", alpha = 0.8)
+demographics2 %>% group_by(Initial_Age, Sex, Marital_Status, Work, Quit) %>%
+  summarize(n = sum(Freq)) -> x
+
+alluvial(x[,1:5], freq = x$n, col = ifelse(x$Quit == "Yes", "darkseagreen2", "grey"), border = ifelse(x$Quit == "Yes", "darkseagreen2", "grey"), layer = x$Quit != "Yes", alpha = 0.8, blocks=FALSE)
 #, Quit, Sex, Age, Race, Marital_Status, Work
 
 #----------------- RADAR PLOTS FOR CIGARETTE USE ---------------------------------
